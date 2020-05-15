@@ -6,7 +6,7 @@ using std::cin;
 using std::endl;
 int** creatematiz(int,int);
 int** CPredefinida();
-void conway(int** mat, int x, int y, int turnos);
+void conway(int**& mat, int x, int y, int turnos);
 void actualizargen(int**& mat , int , int); 
 int** Random(int);
 void menu();
@@ -32,6 +32,7 @@ void menu(){
 				cout << "Ingrese cantidad de turnos por hacer\n:";
 				cin >> turnos;
 				int** mat = creatematiz(x,y);
+				
 				conway(mat, x, y, turnos);
 				for(int i = 0 ; i < x ; i++){
 					delete [] mat[i];
@@ -179,16 +180,21 @@ void actualizargen(int**& mat , int x , int y){
 				}
 			}
 			if(cont+cont2 <=3 && cont+cont2 >1){
+				
 					    if(mat2[i][j] == 0 && cont+cont2 == 3 ){
 					        mat[i][j] = 1;
+					        
 						}
 			}else{
 					if(cont+cont2 > 3){
+						
 						if(mat2[i][j] != 0){
 							mat[i][j] = 0;
+							
 					   }
 					}else{
 							if(cont+cont2 < 2){
+								
 							    if(mat2[i][j] != 0){
 								    mat[i][j] = 1;
 								}
@@ -218,7 +224,7 @@ int** creatematiz(int x , int y){
 	}
     return ma;
 }
-void conway(int** mat, int x, int y, int turnos){
+void conway(int**& mat, int x, int y, int turnos){
     if(turnos == 0 ){
     	
 	}else{
