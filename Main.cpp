@@ -1,14 +1,16 @@
 #include<iostream>
+#include <stdlib.h>
+#include <time.h>
 using std::cout;
 using std::cin;
 using std::endl;
-
+int** creatematiz(int,int);
 int** CPredefinida();
 void conway(int** mat, int x, int y, int turnos);
-void actualizargen(int **& mat , int ** matt , int , int); 
+void actualizargen(int**& mat , int , int); 
 int** Random(int);
 void menu();
-void imp(int** , int);
+void imp(int** , int, int);
 int main(){
     menu();
 }
@@ -22,19 +24,21 @@ void menu(){
     	cin >> op;
     	switch(op){
 			case 1:{
-				int x , y;
+				int x , y, turnos;
 				cout << "Ingrese el tamano en x del tablero\n:";
 				cin >> x;
 				cout << "Ingrese el tamano en y del tablero\n:";
 				cin >> y;
-				int ** mat = NULL; 
-				//conway(mat, x, y, turnos);
+				cout << "Ingrese cantidad de turnos por hacer\n:";
+				cin >> turnos;
+				int** mat = creatematiz(x,y);
+				conway(mat, x, y, turnos);
 				break;
 			}
 			case 2:{
 				int si = 20 , gens;
 				int** mat = NULL;
-				 mat = CPredefinida();
+				mat = CPredefinida();
 				cout << "Ingrese cantidad de turnos por hacer\n:";
 				cin >> gens;
 				conway(mat, si, si, gens);
@@ -80,55 +84,111 @@ int** CPredefinida(){
    }
    return mat;
 }
-void imp(int** mat, int size){
+void imp(int** mat, int size, int size2){
      if(mat != NULL){
      	for(int j = 0; j < size ; j++){
-			cout << "#";
+			cout << "###";
 		}
 		cout << endl; 
 	    for(int i = 0; i < size ; i++){
-			for(int j = 0; j < size ; j++){
+			for(int j = 0; j < size2 ; j++){
 				if(j == 0){
 				   cout << "#";
 				}
 			    if(mat[i][j] == 0){
-				   cout << " ";
+				   cout << "   ";
 				}
 				else{
-				   cout << "*";
+				   cout << " * ";
 				}
 			}
 			cout <<"#"<< endl;
 		}
 		for(int j = 0; j < size ; j++){
-			cout << "#";
+			cout << "###";
 		}
 		cout << endl;
 	 }
 }
-void actualizargen(int **& mat , int ** mat2 , int x , int y){
+void actualizargen(int**& mat , int x , int y){
+	int** mat2 = NULL;
+    mat2 = new int*[x];
+    for(int i = 0 ; i < x ; i++){
+		mat2[i] = new int[y];
+	}
+    for(int i = 0 ; i < x ; i++){
+		for(int j = 0 ; j < y ; j++){
+		   mat2[i][j]= mat[i][j];
+		}
+	}
 	for(int i = 0 ; i < x ; i++){
 	    for(int j = 0 ; j < y ; j++){
-		    if(j == 0 && mat[i][j] != 0 && i > 0 && i < y|| j == y-1 && mat[i][j] != 0 && i > 0 && i < y){
+		    if(j == 0  i > 0 && i < y|| j == y-1 && mat2[i][j] != 0 && i > 0 && i < y){
 		    	
 			}else{
-				if(i == 0 && mat[i][j] != 0 && j > 0 && j < x|| i == x-1 && mat[i][j] != 0 && j > 0 && j < y){
+				if(i == 0 && mat2[i][j] != 0 && j > 0 && j < x|| i == x-1 && mat2[i][j] != 0 && j > 0 && j < y){
 				}
 				else{
+					int cont = 0  ,cont2 = 0;
+					for(int t = -1 ; t < 2 ; t++){
+					    if(mat2 [i][j+t] != 0){
+						   cont++;
+						}
+					}
+					for(int t = -1 ; t < 2 ; t++){
+					    if(mat2 [i+t][j] != 0 ){
+						   cont2++;
+						}
+					}
+					if(cont+cont2 <=3 && cont+cont2 >1){
+					    if(mat2[i][j] == 0 && cont+cont2 == 3 ){
+					        mat[i][j] = 1;
+						}
+					}else{
+					    if(cont+cont2 > 3){
+						    if(mat2[i][j] != 0){
+							   mat2[i][j] = 0;
+							}
+						}else{
+							if(cont+cont2 < 2){
+							    if(mat2[i][j] != 0){
+								    mat[i][j] = 1;
+								}
+							}
+						}
+					}
 					
 				}
 			}
 		}
 	}
+	
 }
-
+int** creatematiz(int x , int y){
+    int** ma = NULL;
+    ma = new int*[x];
+    srand(time (NULL));
+    for(int i = 0 ; i < x ; i++){
+		ma[i] = new int[y];
+	}
+    for(int i = 0 ; i < x ; i++){
+		for(int j = 0 ; j < y ; j++){
+		   ma[i][j]= 0 + rand ()% ( 2 );
+		}
+	}
+    return ma;
+}
 void conway(int** mat, int x, int y, int turnos){
-    if(turnos == 0 ){
+    /*if(turnos == 0 ){
     	
 	}else{
 		actualizargen(mat,mat,x,y);
+		imp(mat,x,y);
 	    conway(mat,  x,  y,  turnos-1);
+	}*/
+	for(int k = 0 ; k < turnos ; k++){
+		 actualizargen(mat,x,y); 
+		imp(mat,x,y);
 	}
-	   
 	
 }
