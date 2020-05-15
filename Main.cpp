@@ -121,12 +121,13 @@ void actualizargen(int**& mat , int x , int y){
 		   mat2[i][j]= mat[i][j];
 		}
 	}
+	cout<< "s";
 	for(int i = 0 ; i < x ; i++){
 	    for(int j = 0 ; j < y ; j++){
-		    if(j == 0  i > 0 && i < y|| j == y-1 && mat2[i][j] != 0 && i > 0 && i < y){
+		    if(j == 0 || j < y){
 		    	
 			}else{
-				if(i == 0 && mat2[i][j] != 0 && j > 0 && j < x|| i == x-1 && mat2[i][j] != 0 && j > 0 && j < y){
+				if(i == 0 || i < x){
 				}
 				else{
 					int cont = 0  ,cont2 = 0;
@@ -162,7 +163,7 @@ void actualizargen(int**& mat , int x , int y){
 			}
 		}
 	}
-	
+	cout << "asdasmdñ" << endl;
 }
 int** creatematiz(int x , int y){
     int** ma = NULL;
