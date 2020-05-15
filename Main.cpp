@@ -33,6 +33,11 @@ void menu(){
 				cin >> turnos;
 				int** mat = creatematiz(x,y);
 				conway(mat, x, y, turnos);
+				for(int i = 0 ; i < x ; i++){
+					delete [] mat[i];
+   	 			}
+    			delete []mat;
+    			mat = NULL;
 				break;
 			}
 			case 2:{
@@ -42,6 +47,11 @@ void menu(){
 				cout << "Ingrese cantidad de turnos por hacer\n:";
 				cin >> gens;
 				conway(mat, si, si, gens);
+				for(int i = 0 ; i < si ; i++){
+					delete [] mat[i];
+   	 			}
+    			delete []mat;
+    			mat = NULL;
 				break;
 			}
 			case 3:{
@@ -111,6 +121,7 @@ void imp(int** mat, int size, int size2){
 	 }
 }
 void actualizargen(int**& mat , int x , int y){
+	int cont = 0  ,cont2 = 0;
 	int** mat2 = NULL;
     mat2 = new int*[x];
     for(int i = 0 ; i < x ; i++){
@@ -121,16 +132,40 @@ void actualizargen(int**& mat , int x , int y){
 		   mat2[i][j]= mat[i][j];
 		}
 	}
-	cout<< "s";
+	
 	for(int i = 0 ; i < x ; i++){
 	    for(int j = 0 ; j < y ; j++){
+	    	cont = 0 , cont2 = 0;
 		    if(j == 0 || j < y){
-		    	
+				for(int t = -1 ; t < 2 ; t++){
+					    if(i > 0  && i < x-1){
+						    if(mat2 [i+t][j] != 0 ){
+						       cont++;
+						   }
+						}
+					}
+					if(i == 0 && mat2[i][j-1] == 1  ){
+					   cont2++;
+					}
+					if(i == x-1 && mat2[i][j+1] == 1  ){
+					   cont2++;
+					}		    	
 			}else{
 				if(i == 0 || i < x){
+				    for(int t = -1 ; t < 2 ; t++){
+					    if(mat2 [i][j+t] != 0){
+						   cont++;
+						}
+					}
+					if(i == 0 && mat2[i-1][j] == 1  ){
+					   cont2++;
+					}
+					if(i == x-1 && mat2[i+1][j] == 1  ){
+					   cont2++;
+					}
 				}
 				else{
-					int cont = 0  ,cont2 = 0;
+					
 					for(int t = -1 ; t < 2 ; t++){
 					    if(mat2 [i][j+t] != 0){
 						   cont++;
@@ -141,29 +176,33 @@ void actualizargen(int**& mat , int x , int y){
 						   cont2++;
 						}
 					}
-					if(cont+cont2 <=3 && cont+cont2 >1){
+				}
+			}
+			if(cont+cont2 <=3 && cont+cont2 >1){
 					    if(mat2[i][j] == 0 && cont+cont2 == 3 ){
 					        mat[i][j] = 1;
 						}
+			}else{
+					if(cont+cont2 > 3){
+						if(mat2[i][j] != 0){
+							mat[i][j] = 0;
+					   }
 					}else{
-					    if(cont+cont2 > 3){
-						    if(mat2[i][j] != 0){
-							   mat2[i][j] = 0;
-							}
-						}else{
 							if(cont+cont2 < 2){
 							    if(mat2[i][j] != 0){
 								    mat[i][j] = 1;
 								}
 							}
 						}
-					}
-					
 				}
-			}
 		}
 	}
-	cout << "asdasmdñ" << endl;
+	for(int i = 0 ; i < x ; i++){
+			delete [] mat2[i];
+    }
+    delete []mat2;
+    mat2 = NULL;
+    imp(mat,x,y);
 }
 int** creatematiz(int x , int y){
     int** ma = NULL;
@@ -180,16 +219,12 @@ int** creatematiz(int x , int y){
     return ma;
 }
 void conway(int** mat, int x, int y, int turnos){
-    /*if(turnos == 0 ){
+    if(turnos == 0 ){
     	
 	}else{
-		actualizargen(mat,mat,x,y);
-		imp(mat,x,y);
+		actualizargen(mat,x,y);
 	    conway(mat,  x,  y,  turnos-1);
-	}*/
-	for(int k = 0 ; k < turnos ; k++){
-		 actualizargen(mat,x,y); 
-		imp(mat,x,y);
 	}
+	
 	
 }
