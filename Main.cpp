@@ -181,26 +181,43 @@ void actualizargen(int**& mat , int x , int y){
 			}
 			if(cont+cont2 <=3 && cont+cont2 >1){
 				
-					    if(mat2[i][j] == 0 && cont+cont2 == 2 ){
+					    if(mat2[i][j] == 0 && cont == 2 ){
 					        mat[i][j] = 1;
 					        
 						}
-			}else{
-					if(cont+cont2 > 3){
+						if(mat2[i][j] == 0 && cont == 2 ){
+					        mat[i][j] = 1;
+					        
+						}
+			}
+			if(cont > 3){
 						
 						if(mat2[i][j] != 0){
 							mat[i][j] = 0;
 							
 					   }
-					}else{
-							if(cont+cont2 < 2){
+					}
+					if(cont2 > 3){
+						
+						if(mat2[i][j] != 0){
+							mat[i][j] = 0;
+							
+					   }
+					}
+							if(cont < 2){
 								
 							    if(mat2[i][j] != 0){
-								    mat[i][j] = 0;
+								    mat[i][j] = 1;
 								}
 							}
-						}
-				}
+							if(cont2 < 2){
+								
+							    if(mat2[i][j] != 0){
+								    mat[i][j] = 1;
+								}
+							}
+						
+				
 		}
 	}
 	for(int i = 0 ; i < x ; i++){
